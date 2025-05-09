@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Debatní deník</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    :root {
+      --modra: #0076ff;
+      --cervena: #ff3b30;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #fff;
+      color: #111;
+    }
+
+    .top-nav {
+      background: #fff;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      justify-content: center;
+      padding: 0.75rem 1rem;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    .nav-left, .nav-right {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .nav-left a, .nav-right a {
+      text-decoration: none;
+      color: var(--modra);
+      font-weight: 600;
+      font-size: 1rem;
+      transition: transform 0.2s;
+    }
+
+    .nav-left a:hover, .nav-right a:hover {
+      transform: scale(1.1);
+    }
+
+    .nav-left a[href*="youtube"] i {
+      color: #ff0000 !important;
+    }
+
+    .nav-right a.facebook i {
+      color: #1877f2;
+    }
+
+    .nav-right a.instagram i {
+      background: linear-gradient(135deg, #feda75, #d62976, #962fbf, #4f5bd5);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-right a.discord i {
+      color: #5865f2;
+    }
+
+    .herohero img {
+      width: 20px;
+      height: 20px;
+      vertical-align: middle;
+      margin-right: 4px;
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      color: var(--modra);
+    }
+
+    @media (max-width: 768px) {
+      .nav-container {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-left, .nav-right {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+        width: 100%;
+        display: none;
+      }
+
+      .nav-container.active .nav-left,
+      .nav-container.active .nav-right {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: block;
+        align-self: flex-end;
+        margin-bottom: 0.5rem;
+      }
+
+      main {
+        max-width: 100%;
+        padding: 0;
+      }
+
+      .motto, .author-inner, .iframe-wrapper, .cta, h1, .section-title {
+        max-width: 100% !important;
+        width: 100% !important;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        box-sizing: border-box;
+      }
+    }
+
+    main {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 2.75rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(to right, var(--cervena), var(--modra));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-align: center;
+    }
+
+    .motto, .author-inner {
+      font-size: 1.2rem;
+      margin: 1.5rem 0 2rem;
+      max-width: 850px;
+      color: #333;
+      line-height: 1.8;
+      padding: 1rem 1.5rem;
+      background: #fdfdfd;
+      border-radius: 0.75rem;
+      border: 1px solid #eee;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.04);
+      text-align: center;
+    }
+
+    .iframe-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 850px;
+      padding-top: 56.25%;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .iframe-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .cta {
+      background: linear-gradient(90deg, var(--cervena), var(--modra));
+      color: white;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 0.75rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-decoration: none;
+      margin: 2rem 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .cta:hover {
+      transform: scale(1.05);
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .footer {
+      background: #fdfdfd;
+      border-top: 1px solid #eee;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .footer a {
+      color: #111;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    /* Mobilní fullscreen menu */
+  .mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #fff;
+  z-index: 9999;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  box-sizing: border-box;
+  transition: opacity 0.3s ease-in-out;
+  opacity: 0;
+}
+
+  .mobile-menu.active {
+  display: flex;
+  opacity: 1;
+}
+
+  .mobile-menu a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: #f2f7ff;
+  padding: 1.5rem 2rem;
+  margin: 0.75rem 0;
+  border-radius: 1rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--modra);
+  width: 100%;
+  max-width: 350px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+  .mobile-menu a i,
+.mobile-menu a img {
+  font-size: 1.75rem;
+  width: 28px;
+  height: 28px;
+  color: var(--modra);
+}
+
+  .mobile-menu .socials {
+    display: flex;
+    gap: 1.2rem;
+    margin-top: 2rem;
+  }
+
+  .mobile-menu .socials a {
+  font-size: 2rem;
+  text-decoration: none;
+  background: #f2f7ff;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+}
+
+.mobile-menu .socials a.facebook i {
+  color: #1877f2;
+}
+
+.mobile-menu .socials a.instagram i {
+  background: linear-gradient(135deg, #feda75, #d62976, #962fbf, #4f5bd5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.mobile-menu .socials a.discord i {
+  color: #5865f2;
+}
+</style>
+</head>
+<body>
+
+<!-- Mobilní menu overlay -->
+<div class="mobile-menu" id="mobileMenu">
+  <button onclick="document.getElementById('mobileMenu').classList.remove('active')" style="position:absolute;top:1rem;right:1rem;font-size:2rem;background:none;border:none;color:var(--modra);">&times;</button>
+  <a href="https://donio.cz/umeni-debatovat">UMĚNÍ DEBATOVAT</a>
+  <a href="https://debatnispolek.debatnidenik.cz">DEBATNÍ SPOLEK</a>
+  <a href="https://www.youtube.com/@DebatniDenik">DEBATNÍ DENÍK</a>
+  <a href="https://herohero.co/debatnidenik">EXKLUZIVNÍ OBSAH</a>
+  <div class="socials">
+    <a class="facebook" href="https://www.facebook.com/tim.kozhukhov" title="Facebook"><i class="fab fa-facebook"></i></a>
+    <a class="instagram" href="https://www.instagram.com/debatni_denik" title="Instagram"><i class="fab fa-instagram"></i></a>
+    <a class="discord" href="https://discord.com/invite/K64u7UDP2B" title="Discord"><i class="fab fa-discord"></i></a>
+  </div>
+</div>
+  <nav class="top-nav">
+    <div class="nav-container">
+      <button class="menu-toggle" onclick="document.getElementById('mobileMenu').classList.toggle('active')">☰ Menu</button>
+      <div class="nav-left">
+        <a href="https://donio.cz/umeni-debatovat">📘 UMĚNÍ DEBATOVAT</a>
+        <a href="https://debatnispolek.debatnidenik.cz">👥 DEBATNÍ SPOLEK</a>
+        <a href="https://www.youtube.com/@DebatniDenik"><i class="fab fa-youtube"></i> DEBATNÍ DENÍK</a>
+        <a class="herohero" href="https://herohero.co/debatnidenik">
+          <img src="https://encrypted-tbn3.gstatic.com/favicon-tbn?q=tbn:ANd9GcTHMzi3ERT_zpalVS5XS9JvrLxHjUP-h7I0GPGd5RA2wlfwr-5y15U-pgwggpiN_lLqFUYJjzuJ88-gZQQhRvkYvdM6LSTgVUWpP7V5N4dcOnHL3lA" alt="Herohero" />
+          EXKLUZIVNÍ OBSAH
+        </a>
+      </div>
+      <div class="nav-right">
+        <a class="facebook" href="https://www.facebook.com/tim.kozhukhov" title="Facebook"><i class="fab fa-facebook"></i></a>
+        <a class="instagram" href="https://www.instagram.com/debatni_denik" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a class="discord" href="https://discord.com/invite/K64u7UDP2B" title="Discord"><i class="fab fa-discord"></i></a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <h1>Debatní deník</h1>
+
+    <div class="motto">
+      <p>Cílem mého projektu je rozvíjet kritické myšlení, učit diváky vytvářet konzistentní argumenty a vzdělávat je o různých společenských otázkách.</p>
+      <p><strong>Napsal jsem učebnici o argumentaci "Umění debatovat". Zde si ji můžete koupit.</strong></p>
+    </div>
+
+    <div class="iframe-wrapper">
+      <iframe src="https://www.youtube.com/embed/Gw58XXxHBC8?si=10t7H81s4tDkq0nw" title="YouTube video player" allowfullscreen></iframe>
+    </div>
+
+    <a href="https://donio.cz/umeni-debatovat" class="cta">📘 MÁM ZÁJEM O UMĚNÍ DEBATOVAT</a>
+
+    <h2 class="section-title">Následující akce</h2>
+
+    <div class="iframe-wrapper">
+      <iframe src="https://debatnidenik.notado.cz/"></iframe>
+    </div>
+
+    <a class="cta" href="https://debatnidenik.notado.cz/" target="_blank">📅 REZERVOVAT</a>
+
+    <div class="author-inner">
+      <div class="author-text">
+        <h2>Timofej Kožuchov</h2>
+        <p>Timofej Kožuchov se narodil v Rusku. Vystudoval trojobor Filozofie, politologie a ekonomie na University College London. V roce 2023 vyhrál akademické mistrovství České a Slovenské republiky v debatování.</p>
+        <p>Po dokončení studia se rozhodl natáčet své debaty na YouTube kanál Debatní deník, kde se snaží učit diváky vytvářet konzistentní argumenty a vzdělávat je o různých společenských otázkách.</p>
+        <p>V průběhu několika let své tvorby natočil přes 500 videí, ve kterých debatuje s vrcholovými politiky, aktivisty a univerzitními profesory. Své znalosti v oblasti debatování rád učí ostatní lidi. Proto se rozhodl založit Debatní spolek Debatního deníku, který v České republice učí mladé lidi argumentaci a řečnictví.</p>
+        <p>V roce 2025 vydal svoji první knihu "Umění debatovat".</p>
+      </div>
+    </div>
+  </main>
+
+  <div class="footer">
+    <a href="/obchodni-podminky.pdf">Obchodní podmínky</a>
+  </div>
+</body>
+</html>
